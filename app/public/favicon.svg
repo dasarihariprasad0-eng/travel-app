@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Retro Travel Logo</title>
+  <desc id="desc">A vintage travel emblem in green, black, and white featuring a traveler, mountains, airplane, sun, and winding road.</desc>
+  <rect width="1000" height="1000" fill="#FFFFFF"/>
+  <circle cx="500" cy="500" r="410" fill="#FFFFFF" stroke="#168044" stroke-width="22"/>
+  <circle cx="690" cy="340" r="76" fill="#168044"/>
+  <!-- airplane and trail -->
+  <path d="M240 350 C190 372 166 388 192 405 C212 417 239 414 265 416 C220 405 210 398 237 383 L355 326"
+        fill="none" stroke="#168044" stroke-width="13" stroke-linecap="round"/>
+  <path d="M390 246 L500 254 L568 218 Q587 211 596 220 Q604 228 590 241 L536 280 L516 326 Q511 338 503 329 L491 294 L445 316 L419 338 Q410 344 406 335 L414 306 L376 286 Q365 278 378 271 Z" fill="#111111"/>
+  <!-- mountains -->
+  <path d="M365 565 L445 478 L477 488 L556 395 L604 440 L627 422 L710 510 L755 481 L834 559 L834 628 L365 628 Z" fill="#168044"/>
+  <path d="M445 478 L477 488 L556 395 L604 440 L627 422 L710 510 L679 499 L626 457 L606 475 L558 432 L486 525 L468 517 L422 565 L394 565 Z" fill="#FFFFFF"/>
+  <path d="M520 505 L558 432 L584 461 L568 457 L552 478 L542 469 Z" fill="#168044"/>
+  <path d="M636 475 L659 488 L676 512 L657 504 Z" fill="#168044"/>
+  <!-- distant water/horizon -->
+  <path d="M365 642 Q475 635 575 643 T835 642" fill="none" stroke="#168044" stroke-width="8" stroke-linecap="round"/>
+  <path d="M465 663 Q520 654 572 662" fill="none" stroke="#168044" stroke-width="7" stroke-linecap="round"/>
+  <!-- winding road -->
+  <path d="M530 875 C582 827 632 792 674 754 C703 728 672 712 634 699 C594 685 603 667 658 654 C721 639 779 624 795 603 C811 581 780 566 740 560 L700 555 C762 554 825 565 843 592 C867 629 813 655 756 673 C709 688 705 698 744 714 C794 736 799 762 765 790 C721 827 666 850 631 875 Z" fill="#111111"/>
+  <path d="M733 580 L769 587 L751 597 L718 591 Z M691 632 L718 640 L701 652 L675 644 Z M661 691 L685 704 L666 717 L644 706 Z M701 758 L721 771 L702 784 L682 770 Z M646 819 L667 831 L649 844 L629 832 Z" fill="#FFFFFF"/>
+  <!-- traveler hat/head -->
+  <path d="M245 455 Q270 422 302 434 L323 459 Q331 473 315 489 L278 509 Q253 512 244 492 L236 475 Z" fill="#111111"/>
+  <path d="M225 491 Q247 476 272 480 Q302 482 329 507 Q315 529 280 533 Q244 536 219 519 Z" fill="#111111"/>
+  <path d="M224 493 Q252 509 287 503" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round"/>
+  <!-- torso and backpack -->
+  <path d="M250 531 L302 531 L329 559 L350 594 L370 706 L357 779 L315 841 L230 839 L180 789 L177 682 L193 589 L218 554 Z" fill="#111111"/>
+  <path d="M213 585 Q244 560 290 571 L319 600 L328 746 Q319 786 288 807 L219 805 Q191 785 191 748 L195 629 Q198 603 213 585 Z" fill="#111111" stroke="#FFFFFF" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M203 632 Q253 610 310 630 L306 681 Q257 697 201 681 Z" fill="#111111" stroke="#FFFFFF" stroke-width="9" stroke-linejoin="round"/>
+  <path d="M250 687 L250 769" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round"/>
+  <rect x="236" y="672" width="20" height="28" rx="5" fill="#FFFFFF"/>
+  <rect x="242" y="678" width="8" height="16" rx="2" fill="#168044"/>
+  <!-- shoulders/arms -->
+  <path d="M215 580 Q187 585 174 620 L151 707 Q146 732 166 740 Q185 744 195 719 L221 649 Z" fill="#111111"/>
+  <path d="M310 585 Q341 591 352 628 L372 704 Q378 730 358 737 Q338 741 328 717 L302 647 Z" fill="#111111"/>
+  <!-- clean white separation at base -->
+  <path d="M332 847 L332 802" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round"/>
+</svg>
