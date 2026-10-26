@@ -29,7 +29,7 @@ export default defineConfig(({ mode }) => {
       host: "0.0.0.0",
       port: 8080,
       strictPort: true,
-      allowedHosts: ["recipient-parish-maverick.ngrok-free.dev"],
+      allowedHosts: ["https://direct-travel-api.onrender.com/"],
       ...(httpsOptions ? { https: httpsOptions } : {}),
       proxy: {
         "/api": {
