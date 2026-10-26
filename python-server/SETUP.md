@@ -87,36 +87,36 @@ cannot use it to determine whether an email has an account.
 - SQLite is appropriate for local use and small deployments with a persistent
   disk. Use a different persistence layer before deploying multiple backend
   instances or requiring high availability.
-- `render.yaml` provides a free Render API service blueprint. Supply the
-  Supabase PostgreSQL connection string and SMTP/reset secrets in the Render
-  dashboard; do not commit them. The backend's free instance may sleep when
-  idle, and free database plans can have storage, connection, backup, or
-  inactivity limits. Review current provider terms before relying on free
-  plans for production or customer data.
+- `render.yaml` provides a Render blueprint for the API and React frontend.
+  Set `DATABASE_URL` to a complete PostgreSQL connection URI and configure
+  SMTP credentials and any desired provider API keys in the Render dashboard;
+  do not commit secrets. The Blueprint generates `PASSWORD_RESET_SECRET`.
+  The database URL must start with `postgresql://` and include the database
+  credentials, host, port, and name.
+  A database hostname by itself is not a valid URL. Review the current Render
+  service and database plans before deploying.
 
 ### First deployment
 
 1. Push this project to a private GitHub repository. The current local
    workspace must be connected to a Git remote before a provider can build it.
-2. Create a Supabase project and copy its PostgreSQL connection URI from
-   **Project Settings → Database → Connection string**. Protect this URI as a
-   secret; do not add it to the frontend environment.
+2. Create a PostgreSQL database in Render (or use an existing managed
+   PostgreSQL database). Copy its full **Internal Database URL**. Do not use
+   only the hostname and do not expose this URL to the frontend.
 3. In Render, create a Blueprint from the repository root and apply
-   `render.yaml`. Set `DATABASE_URL` to the Supabase URI and configure the
-   SMTP and `PASSWORD_RESET_SECRET` values in the Render service environment.
-   A Gmail App Password is required for Gmail SMTP.
-4. Import the same repository in Vercel, set the project root to `app`, and
-   deploy. `app/vercel.json` forwards `/api/*` to
-   `https://direct-travel-api.onrender.com`; change this destination if the
-   Render service name or URL differs.
-5. Verify `https://<your-render-service>.onrender.com/health`, then test
-   account creation, sign-in, password reset email delivery, and the deployed
-   Vercel site. Cloud database is empty by default; the local SQLite file is
-   not uploaded.
-
-The frontend API proxy keeps session cookies on the Vercel site origin. Do
-not bypass the proxy by setting `VITE_API_URL` to a different provider
-domain, or browser cookie behavior can change.
+   `render.yaml`. Set `DATABASE_URL` to the full database URL, then configure
+   `SMTP_USERNAME`, `SMTP_PASSWORD`, and `SMTP_FROM_EMAIL` in the API service
+   environment if you want password-reset emails. The Blueprint generates
+   `PASSWORD_RESET_SECRET`; enter provider API keys for the optional AI,
+   weather, and research features. A Gmail App Password is required for Gmail
+   SMTP.
+4. The Blueprint also deploys the React frontend and configures it to call the
+   API. If you rename either service or add a custom domain, update
+   `VITE_API_URL` and the API's `CORS_ORIGINS` to match.
+5. Verify `https://direct-travel-api.onrender.com/health` and
+   `https://direct-travel-web.onrender.com`, then test account creation,
+   sign-in, and password-reset email delivery. The database starts empty; the
+   local SQLite file is not uploaded.
 - Weather and geocoding currently use OpenWeather when configured. If no
   OpenWeather key is set, weather forecasts are reported as unavailable rather
   than fabricated. Tavily web research is optional.

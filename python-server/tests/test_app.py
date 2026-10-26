@@ -24,6 +24,14 @@ def test_db(tmp_path, monkeypatch):
     get_settings.cache_clear()
 
 
+def test_database_url_requires_full_postgres_uri(test_db, monkeypatch):
+    monkeypatch.setenv("DATABASE_URL", "dpg-dbe9512vcj2c73c5qrpg-a")
+    get_settings.cache_clear()
+
+    with pytest.raises(ValueError, match="Internal Database URL"):
+        database.connect()
+
+
 @pytest.fixture
 def anyio_backend():
     return "asyncio"

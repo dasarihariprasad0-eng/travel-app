@@ -9,6 +9,7 @@ import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 
 from fastapi import Cookie, Depends, Header, HTTPException
 import psycopg
@@ -54,6 +55,22 @@ def database_url() -> str:
 def connect() -> sqlite3.Connection | psycopg.Connection:
     url = database_url()
     if url:
+        try:
+            parsed_url = urlsplit(url)
+        except ValueError as exc:
+            raise ValueError(
+                "DATABASE_URL must be a full PostgreSQL URI. In Render, use the "
+                "database's Internal Database URL, not only its hostname."
+            ) from exc
+        if (
+            parsed_url.scheme not in {"postgres", "postgresql"}
+            or not parsed_url.hostname
+            or not parsed_url.path.strip("/")
+        ):
+            raise ValueError(
+                "DATABASE_URL must be a full PostgreSQL URI. In Render, use the "
+                "database's Internal Database URL, not only its hostname."
+            )
         return psycopg.connect(
             url,
             connect_timeout=10,

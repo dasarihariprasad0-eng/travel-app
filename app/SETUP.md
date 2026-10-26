@@ -47,9 +47,8 @@ the computer's LAN address changes.
   deployment, the backend can store them in PostgreSQL with `DATABASE_URL`.
 - Only optional Groq/Gemini provider keys belong in `python-server/.env`. Never
   put them in this folder, a `VITE_` variable, or frontend source.
-- `vercel.json` proxies `/api/*` to the Render API so browser sessions use a
-  same-origin path. Update its destination if you change the Render service
-  name. Deploy this folder as the Vercel project root with `dist` as its
-  output directory.
+- `render.yaml` deploys this frontend as a Render static site and sets
+  `VITE_API_URL` to the Render API service. If you rename the services or add
+  a custom domain, update `VITE_API_URL` and the API's `CORS_ORIGINS`.
 - Free hosting and database plans can sleep or pause and have quotas. Check
   the providers' current limits before using them for a business launch.
