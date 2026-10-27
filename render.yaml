@@ -13,7 +13,7 @@ services:
       - key: DATABASE_URL
         sync: false
       - key: CORS_ORIGINS
-        value: https://travel-app-my31.onrender.com
+        value: https://travel-app-vtce-qutszefm.onslate.in,https://travel-app-my31.onrender.com
       - key: SECURE_COOKIES
         value: "true"
       - key: AI_PROVIDER
