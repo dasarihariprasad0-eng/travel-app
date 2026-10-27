@@ -18,8 +18,10 @@ export async function apiRequest<T>(
   }
 
   const response = await fetch(`${API_BASE}${path}`, {
-    method: options.method ?? "GET",
-    headers,
+    method:"GET",
+     headers: {
+    Accept: "application/json",
+  },
     credentials: "include",
     body:
       options.body === undefined
