@@ -3,6 +3,11 @@ const API_BASE = (
   import.meta.env["VITE_API_URL"] ?? "/api"
 ).replace(/\/+$/, "");
 
+export function notifyAuthChange(): void {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new Event("direct-auth-change"));
+}
+
 export async function apiRequest<T>(
   path: string,
   options: {
@@ -11,17 +16,17 @@ export async function apiRequest<T>(
     auth?: boolean;
   } = {},
 ): Promise<T> {
-  const headers = new Headers({ Accept: "application/json" });
+  const headers = new Headers({
+    Accept: "application/json",
+  });
 
   if (options.body !== undefined) {
     headers.set("Content-Type", "application/json");
   }
 
   const response = await fetch(`${API_BASE}${path}`, {
-    method:"GET",
-     headers: {
-    Accept: "application/json",
-  },
+    method: options.method ?? "GET",
+    headers,
     credentials: "include",
     body:
       options.body === undefined
