@@ -20,8 +20,14 @@ class Settings(BaseSettings):
     smtp_password: str = ""
     smtp_from_email: str = ""
     password_reset_secret: str = ""
-    secure_cookies: bool = False
-    cors_origins: str = "http://localhost:8080,http://192.168.1.80:8080,http://localhost:5000,https://travel-app-vtce-qutszefm.onslate.in"
+    secure_cookies: bool = True
+    cors_origins: str = (
+    "http://localhost:8080,"
+    "http://192.168.1.80:8080,"
+    "http://localhost:5000,"
+    "https://travel-app-vtce-qutszefm.onslate.in,"
+    "https://travel-app-my31.onrender.com"
+    )
 
     @property
     def selected_provider(self) -> str:
