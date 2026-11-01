@@ -1,7 +1,8 @@
 # DIRECT React frontend
 
-React 19 + TypeScript SPA. It calls the FastAPI backend at `VITE_API_URL`
-(default `http://localhost:8000`).
+React 19 + TypeScript SPA. It calls the FastAPI backend at `VITE_API_URL`.
+Local development defaults to the Vite `/api` proxy; production defaults to
+`https://direct-travel-api.onrender.com` when `VITE_API_URL` is not set.
 
 ```powershell
 npm install

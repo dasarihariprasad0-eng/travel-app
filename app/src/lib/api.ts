@@ -1,4 +1,7 @@
-const API_BASE = (import.meta.env["VITE_API_URL"] ?? "/api").replace(/\/+$/, "");
+const API_BASE = (
+  import.meta.env["VITE_API_URL"] ??
+  (import.meta.env.DEV ? "/api" : "https://direct-travel-api.onrender.com")
+).replace(/\/+$/, "");
 
 export type AuthSession = { user: { id: string } };
 

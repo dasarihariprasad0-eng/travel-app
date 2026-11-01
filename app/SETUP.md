@@ -18,7 +18,8 @@ npm run dev
 
 Open `http://localhost:8080`. The frontend reads the public API address from
 `VITE_API_URL` in `.env` (defaults to `/api`, proxied by Vite to the local
-FastAPI service). Keep the same-origin proxy for browser sessions and HTTPS.
+FastAPI service). A production build defaults to
+`https://direct-travel-api.onrender.com` when `VITE_API_URL` is not provided.
 
 ## Phone testing over local HTTPS
 
@@ -50,5 +51,11 @@ the computer's LAN address changes.
 - `render.yaml` deploys this frontend as a Render static site and sets
   `VITE_API_URL` to the Render API service. If you rename the services or add
   a custom domain, update `VITE_API_URL` and the API's `CORS_ORIGINS`.
+- For Zoho Catalyst hosting, set `VITE_API_URL` to
+  `https://direct-travel-api.onrender.com` in the frontend build environment,
+  then trigger a new build. Add the exact Catalyst site origin (for example,
+  `https://direct-the-travelling-app.onslate.in`) to the Render API's
+  `CORS_ORIGINS`. The frontend sends session cookies, so the API must allow
+  credentials and production cookies must use `Secure` and `SameSite=None`.
 - Free hosting and database plans can sleep or pause and have quotas. Check
   the providers' current limits before using them for a business launch.

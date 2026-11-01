@@ -53,12 +53,13 @@ describe("route loading", () => {
     expect(existsSync("src/routes/__root.tsx")).toBe(true);
   });
 
-  it("uses the same-origin API proxy and no Supabase auth integration", () => {
+  it("uses the local proxy and production API URL without Supabase auth", () => {
     const auth = readFileSync("src/routes/auth.tsx", "utf8");
     const api = readFileSync("src/lib/api.ts", "utf8");
     expect(auth).toContain("/auth/signup");
     expect(auth).toContain("/auth/login");
-    expect(api).toContain('?? "/api"');
+    expect(api).toContain('import.meta.env.DEV ? "/api"');
+    expect(api).toContain('"https://direct-travel-api.onrender.com"');
     expect(api).toContain('credentials: "include"');
     expect(api).not.toContain("localStorage");
     expect(existsSync("src/integrations/supabase/client.ts")).toBe(false);
