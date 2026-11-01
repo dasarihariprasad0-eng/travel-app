@@ -260,6 +260,7 @@ async def test_groq_uses_prompt_json_without_provider_json_validation(monkeypatc
 
     assert result == '{"summary":"Plan"}'
     assert "response_format" not in captured["options"]
+    assert captured["options"]["max_tokens"] == 8192
     assert "JSON" in captured["messages"][0].content
 
 

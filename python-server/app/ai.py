@@ -222,6 +222,7 @@ async def _chat_groq(
             "temperature": min(temperature, 0.2)
             if json_mode
             else temperature,
+            "max_tokens": 8192,
             "max_retries": 2,
         }
 
