@@ -61,7 +61,7 @@ describe("route loading", () => {
     expect(api).toContain('import.meta.env.DEV ? "/api"');
     expect(api).toContain('"https://direct-travel-api.onrender.com"');
     expect(api).toContain('credentials: "include"');
-    expect(api).toContain('window.sessionStorage.getItem(SESSION_TOKEN_KEY)');
+    expect(api).toContain("window.sessionStorage.getItem(SESSION_TOKEN_KEY)");
     expect(api).toContain('headers.set("Authorization", `Bearer ${token}`)');
     expect(api).not.toContain("localStorage");
     expect(existsSync("src/integrations/supabase/client.ts")).toBe(false);
