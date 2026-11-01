@@ -16,11 +16,7 @@ export default defineConfig(({ mode }) => {
     keyPath && certPath ? { key: readFileSync(keyPath), cert: readFileSync(certPath) } : undefined;
 
   return {
-    plugins: [
-      tanstackRouter({ target: "react", autoCodeSplitting: true }),
-      react(),
-      tailwindcss(),
-    ],
+    plugins: [tanstackRouter({ target: "react", autoCodeSplitting: true }), react(), tailwindcss()],
     resolve: { tsconfigPaths: true },
     server: {
       host: "0.0.0.0",
