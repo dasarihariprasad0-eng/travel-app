@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     smtp_password: str = ""
     smtp_from_email: str = ""
     password_reset_secret: str = ""
-    secure_cookies: bool = True
+    secure_cookies: bool = False
     cors_origins: str = (
     "http://localhost:8080,"
     "http://192.168.1.80:8080,"
