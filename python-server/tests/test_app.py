@@ -494,6 +494,7 @@ async def test_forwarded_https_sets_secure_cookie_only_for_loopback_proxy(test_d
         )
     assert response.status_code == 201
     assert "; secure" in response.headers["set-cookie"].lower()
+    assert "samesite=none" in response.headers["set-cookie"].lower()
 
     transport = ASGITransport(app=app, client=("198.51.100.10", 12345))
     async with AsyncClient(transport=transport, base_url="http://testserver") as remote_api:
@@ -508,6 +509,7 @@ async def test_forwarded_https_sets_secure_cookie_only_for_loopback_proxy(test_d
         )
     assert response.status_code == 201
     assert "; secure" not in response.headers["set-cookie"].lower()
+    assert "samesite=lax" in response.headers["set-cookie"].lower()
 
 
 @pytest.mark.anyio

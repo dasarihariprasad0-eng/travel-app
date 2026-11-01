@@ -129,15 +129,16 @@ def auth_result(user_id: str):
 
 
 def set_session_cookie(response: Response, request: Request, token: str) -> None:
+    secure = request_is_secure(request)
     response.set_cookie(
-    key="direct_session",
-    value=token,
-    max_age=14 * 24 * 60 * 60,
-    httponly=True,
-    secure=True,
-    samesite="none",
-    path="/",
-)
+        key="direct_session",
+        value=token,
+        max_age=14 * 24 * 60 * 60,
+        httponly=True,
+        secure=secure,
+        samesite="none" if secure else "lax",
+        path="/",
+    )
 
 
 @app.post("/auth/signup", status_code=201)
