@@ -10,6 +10,7 @@ from pydantic import ValidationError
 from app import ai as ai_module
 from app import db as database
 from app import main as main_module
+from app import tavily as tavily_module
 from app.ai import _chat_groq, parse_json
 from app.config import Settings, get_settings
 from app.main import GeneratedItinerary, app
@@ -237,28 +238,17 @@ async def test_groq_uses_prompt_json_without_provider_json_validation(monkeypatc
     captured = {}
 
     class FakeResponse:
-        status_code = 200
+        content = '{"summary":"Plan"}'
 
-        @staticmethod
-        def json():
-            return {"choices": [{"message": {"content": '{"summary":"Plan"}'}}]}
+    class FakeChatGroq:
+        def __init__(self, **options):
+            captured["options"] = options
 
-    class FakeClient:
-        def __init__(self, timeout):
-            assert timeout == 120.0
-
-        async def __aenter__(self):
-            return self
-
-        async def __aexit__(self, *_args):
-            return None
-
-        async def post(self, _url, *, headers, json):
-            captured.update(json)
-            assert headers["Content-Type"] == "application/json"
+        async def ainvoke(self, messages):
+            captured["messages"] = messages
             return FakeResponse()
 
-    monkeypatch.setattr(ai_module.httpx, "AsyncClient", FakeClient)
+    monkeypatch.setattr(ai_module, "ChatGroq", FakeChatGroq)
     result = await _chat_groq(
         [
             {"role": "system", "content": "Return JSON only."},
@@ -269,8 +259,44 @@ async def test_groq_uses_prompt_json_without_provider_json_validation(monkeypatc
     )
 
     assert result == '{"summary":"Plan"}'
-    assert "response_format" not in captured
-    assert "JSON" in captured["messages"][0]["content"]
+    assert "response_format" not in captured["options"]
+    assert "JSON" in captured["messages"][0].content
+
+
+@pytest.mark.anyio
+async def test_tavily_uses_bearer_api_key(monkeypatch):
+    captured = {}
+
+    class FakeResponse:
+        status_code = 200
+
+        @staticmethod
+        def json():
+            return {"results": [{"title": "Travel guide", "url": "https://example.com", "content": "Details"}]}
+
+    class FakeClient:
+        def __init__(self, timeout):
+            assert timeout == 30
+
+        async def __aenter__(self):
+            return self
+
+        async def __aexit__(self, *_args):
+            return None
+
+        async def post(self, _url, *, headers, json):
+            captured["headers"] = headers
+            captured["payload"] = json
+            return FakeResponse()
+
+    monkeypatch.setattr(tavily_module, "get_settings", lambda: Settings(tavily_api_key="test-key"))
+    monkeypatch.setattr(tavily_module.httpx, "AsyncClient", FakeClient)
+
+    result = await tavily_module.search("Mumbai travel")
+
+    assert captured["headers"]["Authorization"] == "Bearer test-key"
+    assert captured["payload"]["query"] == "Mumbai travel"
+    assert result == [{"title": "Travel guide", "url": "https://example.com", "content": "Details"}]
 
 
 def test_generated_itinerary_requires_complete_valid_days():

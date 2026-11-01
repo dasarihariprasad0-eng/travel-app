@@ -28,10 +28,7 @@ export async function apiRequest<T>(
     method: options.method ?? "GET",
     headers,
     credentials: "include",
-    body:
-      options.body === undefined
-        ? undefined
-        : JSON.stringify(options.body),
+    body: options.body === undefined ? undefined : JSON.stringify(options.body),
   });
 
   const payload: unknown = await response.json().catch(() => null);

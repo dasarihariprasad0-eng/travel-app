@@ -14,9 +14,7 @@ export default defineConfig(({ mode }) => {
     throw new Error("Set both DEV_HTTPS_KEY and DEV_HTTPS_CERT to enable HTTPS for Vite.");
   }
   const httpsOptions =
-    keyPath && certPath
-      ? { key: readFileSync(keyPath), cert: readFileSync(certPath) }
-      : undefined;
+    keyPath && certPath ? { key: readFileSync(keyPath), cert: readFileSync(certPath) } : undefined;
 
   return {
     plugins: [

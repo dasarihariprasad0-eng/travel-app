@@ -30,12 +30,13 @@ function TripChartTooltip({
   payload?: Array<{ value: number }>;
   label?: string;
 }) {
-  if (!active || !payload?.length) return null;
+  const value = payload?.[0]?.value;
+  if (!active || value === undefined) return null;
   return (
     <div className="crystal-tooltip">
       <span>{label}</span>
       <strong>
-        {payload[0].value} {payload[0].value === 1 ? "trip" : "trips"}
+        {value} {value === 1 ? "trip" : "trips"}
       </strong>
     </div>
   );
@@ -122,5 +123,5 @@ function startOfToday() {
 }
 
 function capitalize(value: string) {
-  return value.length ? value[0].toUpperCase() + value.slice(1) : value;
+  return value.charAt(0).toUpperCase() + value.slice(1);
 }
