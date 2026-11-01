@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { apiRequest, notifyAuthChange } from "@/lib/api";
+import { apiRequest, clearSessionToken, notifyAuthChange } from "@/lib/api";
 
 const WORKSPACE_NAV = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -37,6 +37,7 @@ export function AppHeader() {
     await queryClient.cancelQueries();
     try {
       await apiRequest("/auth/logout", { method: "POST" });
+      clearSessionToken();
       queryClient.clear();
       notifyAuthChange();
       navigate({ to: "/auth", replace: true });

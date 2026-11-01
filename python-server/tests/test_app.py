@@ -339,7 +339,7 @@ async def test_signup_me_and_login_use_http_only_cookie(api):
         },
     )
     assert signed_up.status_code == 201
-    assert "access_token" not in signed_up.json()
+    assert signed_up.json()["access_token"]
     cookie = signed_up.headers["set-cookie"].lower()
     assert "httponly" in cookie
     assert "direct_session=" in cookie
@@ -353,6 +353,30 @@ async def test_signup_me_and_login_use_http_only_cookie(api):
     assert (await api.get("/me")).status_code == 200
     assert (await api.post("/auth/logout")).status_code == 200
     assert (await api.get("/me")).status_code == 401
+
+
+@pytest.mark.anyio
+async def test_bearer_session_authenticates_without_cookies(api):
+    signed_up = await signup(api)
+    assert signed_up.status_code == 201
+    token = signed_up.json()["access_token"]
+    api.cookies.clear()
+
+    profile = await api.get(
+        "/me",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+
+    assert profile.status_code == 200
+    assert (await api.get("/me")).status_code == 401
+    logged_out = await api.post(
+        "/auth/logout",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    assert logged_out.status_code == 200
+    assert (
+        await api.get("/me", headers={"Authorization": f"Bearer {token}"})
+    ).status_code == 401
 
 
 @pytest.mark.anyio

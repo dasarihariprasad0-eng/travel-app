@@ -55,7 +55,11 @@ the computer's LAN address changes.
   `https://direct-travel-api.onrender.com` in the frontend build environment,
   then trigger a new build. Add the exact Catalyst site origin (for example,
   `https://direct-the-travelling-app.onslate.in`) to the Render API's
-  `CORS_ORIGINS`. The frontend sends session cookies, so the API must allow
-  credentials and production cookies must use `Secure` and `SameSite=None`.
+  `CORS_ORIGINS`. The frontend sends its per-tab bearer token in the
+  `Authorization` header, avoiding reliance on cross-site cookies that some
+  browsers block. The token is held in `sessionStorage` and cleared when the
+  user signs out or the session expires; as with any JavaScript-accessible
+  token, protect the app against cross-site scripting. The backend also
+  retains HttpOnly-cookie support for same-site deployments and older clients.
 - Free hosting and database plans can sleep or pause and have quotas. Check
   the providers' current limits before using them for a business launch.

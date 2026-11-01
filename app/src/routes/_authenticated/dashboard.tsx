@@ -32,7 +32,7 @@ import {
   YAxis,
 } from "recharts";
 import { toast } from "sonner";
-import { apiRequest, notifyAuthChange } from "@/lib/api";
+import { apiRequest, clearSessionToken, notifyAuthChange } from "@/lib/api";
 import { listMyTrips, type TripCard } from "@/lib/travel.api";
 import { researchFlights } from "@/lib/flight-research.api";
 
@@ -79,6 +79,7 @@ function DashboardPage() {
     await queryClient.cancelQueries();
     try {
       await apiRequest("/auth/logout", { method: "POST" });
+      clearSessionToken();
       queryClient.clear();
       notifyAuthChange();
       navigate({ to: "/auth", replace: true });

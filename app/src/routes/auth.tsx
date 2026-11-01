@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Loader2, PlaneTakeoff } from "lucide-react";
 import { toast } from "sonner";
 import heroImage from "@/assets/hero-alpine.jpg";
-import { apiRequest, notifyAuthChange, type AuthSession } from "@/lib/api";
+import { apiRequest, notifyAuthChange, setSessionToken, type AuthSession } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -94,19 +94,21 @@ function AuthPage() {
         return;
       }
       if (isSignUp) {
-        await apiRequest<AuthSession>("/auth/signup", {
+        const session = await apiRequest<AuthSession>("/auth/signup", {
           method: "POST",
           auth: false,
           body: { email, password, display_name: displayName || email.split("@")[0] },
         });
+        setSessionToken(session.access_token);
         notifyAuthChange();
         navigate({ to: "/profile", replace: true });
       } else {
-        await apiRequest<AuthSession>("/auth/login", {
+        const session = await apiRequest<AuthSession>("/auth/login", {
           method: "POST",
           auth: false,
           body: { email, password },
         });
+        setSessionToken(session.access_token);
         notifyAuthChange();
         navigate({ to: "/dashboard", replace: true });
       }

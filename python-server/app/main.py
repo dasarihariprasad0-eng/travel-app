@@ -124,8 +124,8 @@ async def send_password_reset_email(settings, recipient: str, code: str) -> None
     await asyncio.to_thread(_password_reset_email, settings, recipient, code)
 
 
-def auth_result(user_id: str):
-    return {"user": {"id": user_id}}
+def auth_result(user_id: str, token: str):
+    return {"user": {"id": user_id}, "access_token": token}
 
 
 def set_session_cookie(response: Response, request: Request, token: str) -> None:
@@ -150,7 +150,7 @@ async def signup(body: SignUpIn, request: Request, response: Response):
         raise HTTPException(422, "Display name cannot be blank.")
     user_id, token = create_user(body.email.strip().lower(), body.password, display_name, now())
     set_session_cookie(response, request, token)
-    return auth_result(user_id)
+    return auth_result(user_id, token)
 
 
 @app.post("/auth/login")
@@ -159,7 +159,7 @@ async def login(body: SignInIn, request: Request, response: Response):
         raise HTTPException(422, "Enter a valid email address.")
     user_id, token = authenticate_user(body.email.strip().lower(), body.password, now())
     set_session_cookie(response, request, token)
-    return auth_result(user_id)
+    return auth_result(user_id, token)
 
 
 @app.post("/auth/forgot-password")
@@ -248,7 +248,7 @@ async def logout(
     direct_session: str = Cookie(default=""),
 ):
     scheme, _, bearer_token = authorization.partition(" ")
-    token = direct_session or (bearer_token if scheme.lower() == "bearer" else "")
+    token = (bearer_token if scheme.lower() == "bearer" else "") or direct_session
     delete_session(token)
     response.delete_cookie(
         key="direct_session",

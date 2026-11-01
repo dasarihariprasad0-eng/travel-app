@@ -651,7 +651,7 @@ async def current_db(
     direct_session: str = Cookie(default=""),
 ) -> Db:
     scheme, _, bearer_token = authorization.partition(" ")
-    token = direct_session or (bearer_token if scheme.lower() == "bearer" else "")
+    token = (bearer_token if scheme.lower() == "bearer" else "") or direct_session
     if not token:
         raise HTTPException(401, "Sign in required.")
     user_id = user_for_token(token)
